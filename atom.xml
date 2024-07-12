@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2024-07-10T09:00:19.951Z</updated>
+  <updated>2024-07-11T09:23:59.583Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="http://example.com/2024/07/10/%E6%97%A5%E6%B8%B8%E5%A4%AA%E9%98%B3%E5%B2%9B&amp;%E5%A4%9C%E6%B8%B8%E6%9D%BE%E8%8A%B1%E6%B1%9F/"/>
     <id>http://example.com/2024/07/10/%E6%97%A5%E6%B8%B8%E5%A4%AA%E9%98%B3%E5%B2%9B&amp;%E5%A4%9C%E6%B8%B8%E6%9D%BE%E8%8A%B1%E6%B1%9F/</id>
     <published>2024-07-10T08:51:50.000Z</published>
-    <updated>2024-07-10T09:00:19.951Z</updated>
+    <updated>2024-07-11T09:23:59.583Z</updated>
     
     <content type="html"><![CDATA[<p>老家的姐姐来哈尔滨玩，一起吃吃喝喝<br>最近哈尔滨的天闷热，好在没有多大的太阳，要不然人都化掉了<br>夜晚游江一定要慎重，蚊子及各种飞虫是真！的！多！<br><img src="/myimgs/%E6%97%A5%E6%B8%B8%E5%A4%AA%E9%98%B3%E5%B2%9B&%E5%A4%9C%E6%B8%B8%E6%9D%BE%E8%8A%B1%E6%B1%9F/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20240710165445.jpg" alt="老江桥"><br><img src="/myimgs/%E6%97%A5%E6%B8%B8%E5%A4%AA%E9%98%B3%E5%B2%9B&%E5%A4%9C%E6%B8%B8%E6%9D%BE%E8%8A%B1%E6%B1%9F/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20240710165447.jpg" alt="江沿"><br><img src="/myimgs/%E6%97%A5%E6%B8%B8%E5%A4%AA%E9%98%B3%E5%B2%9B&%E5%A4%9C%E6%B8%B8%E6%9D%BE%E8%8A%B1%E6%B1%9F/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20240710165449.jpg" alt="老江桥"><br><img src="/myimgs/%E6%97%A5%E6%B8%B8%E5%A4%AA%E9%98%B3%E5%B2%9B&%E5%A4%9C%E6%B8%B8%E6%9D%BE%E8%8A%B1%E6%B1%9F/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20240710165452.jpg" alt="老江桥"><br><img src="/myimgs/%E6%97%A5%E6%B8%B8%E5%A4%AA%E9%98%B3%E5%B2%9B&%E5%A4%9C%E6%B8%B8%E6%9D%BE%E8%8A%B1%E6%B1%9F/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20240710165454.jpg" alt="太阳岛"><br><img src="/myimgs/%E6%97%A5%E6%B8%B8%E5%A4%AA%E9%98%B3%E5%B2%9B&%E5%A4%9C%E6%B8%B8%E6%9D%BE%E8%8A%B1%E6%B1%9F/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20240710165458.jpg" alt="太阳岛"><br><img src="/myimgs/%E6%97%A5%E6%B8%B8%E5%A4%AA%E9%98%B3%E5%B2%9B&%E5%A4%9C%E6%B8%B8%E6%9D%BE%E8%8A%B1%E6%B1%9F/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20240710165502.jpg" alt="大剧院"><br><img src="/myimgs/%E6%97%A5%E6%B8%B8%E5%A4%AA%E9%98%B3%E5%B2%9B&%E5%A4%9C%E6%B8%B8%E6%9D%BE%E8%8A%B1%E6%B1%9F/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20240710165507.jpg" alt="太阳岛"></p>]]></content>
     
@@ -32,6 +32,8 @@
       
     
     
+    
+    <category term="摄影" scheme="http://example.com/categories/%E6%91%84%E5%BD%B1/"/>
     
     
   </entry>
