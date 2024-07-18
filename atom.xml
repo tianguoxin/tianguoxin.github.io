@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2024-07-11T09:23:59.583Z</updated>
+  <updated>2024-07-18T08:10:44.489Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Pandas iterrows修改字段的值</title>
+    <link href="http://example.com/2024/07/18/Pandas-iterrows%E4%BF%AE%E6%94%B9%E5%AD%97%E6%AE%B5%E7%9A%84%E5%80%BC/"/>
+    <id>http://example.com/2024/07/18/Pandas-iterrows%E4%BF%AE%E6%94%B9%E5%AD%97%E6%AE%B5%E7%9A%84%E5%80%BC/</id>
+    <published>2024-07-18T08:02:21.000Z</published>
+    <updated>2024-07-18T08:10:44.489Z</updated>
+    
+    <content type="html"><![CDATA[<p>在循环Pandas Dataframe中的每一行的时候，总会用到iterrows。<br>虽然在循环的速度上个人感觉要比Pandas Dataframe的values方法慢一些，但是优势在于可以通过key来进行具体的操作，在更新的时候总归要方便一些。</p><p>当通过<code>for index, row in df.iterrows()</code>进行遍历时，<strong>如果直接对row中的某个key的值进行修改，当结束当次循环之后值依旧为原来的值不发生改变</strong>，必须结合index来对df中的内容重新赋值。<br>具体示例如下：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">for index, row in df.iterrows():</span><br><span class="line">    row[&#x27;name&#x27;] = 1 # 只有这句代码是不生效的 需要结合下方的操作</span><br><span class="line">    df.iloc[index] = row</span><br></pre></td></tr></table></figure>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;在循环Pandas Dataframe中的每一行的时候，总会用到iterrows。&lt;br&gt;虽然在循环的速度上个人感觉要比Pandas Dataframe的values方法慢一些，但是优势在于可以通过key来进行具体的操作，在更新的时候总归要方便一些。&lt;/p&gt;
+&lt;p&gt;当通过&lt;</summary>
+      
+    
+    
+    
+    <category term="编程" scheme="http://example.com/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>夜游松花江</title>
