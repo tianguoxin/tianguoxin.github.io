@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2024-08-08T03:16:16.416Z</updated>
+  <updated>2024-08-21T06:33:19.047Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Python faust初使用</title>
+    <link href="http://example.com/2024/08/21/Python-faust%E5%88%9D%E4%BD%BF%E7%94%A8/"/>
+    <id>http://example.com/2024/08/21/Python-faust%E5%88%9D%E4%BD%BF%E7%94%A8/</id>
+    <published>2024-08-21T06:09:14.000Z</published>
+    <updated>2024-08-21T06:33:19.047Z</updated>
+    
+    <content type="html"><![CDATA[<p>项目地址：[[<a href="https://github.com/faust-streaming/faust">faust-streaming&#x2F;faust: Python Stream Processing. A Faust fork (github.com)</a>]]<br>文档地址：[[<a href="https://faust-streaming.github.io/faust/index.html#">浮士德 - Python 流处理 — 浮士德 0.11.2 文档 (faust-streaming.github.io)</a>]]<br>这东西在我理解就是一个简单的流引擎，类似Apache Flink组件</p><p>之所以选择了faust这个东西，是因为它对于Kafka支持还是蛮友好的，比自己手撸一个与Kafka进行交互的脚本强的多，而且号称能一天处理上亿级别的数据量，那我这kafka里的仨瓜俩枣的数据加工转换处理肯定也没问题</p><p>faust属于开箱即用的，而且自带的日志记录，async协程等都已经比较完善。当然比较建全的东西，体量都会有那么一点点”重”，很多像表啊，本地内存通道，以及它基于aiohttp的一些服务，短时间可能用不到</p><p>贴一个faust和kafka交互的简单代码，就是从topic A中获取数据，然后写到topic B</p><p>例子很简陋，因为人家value_type还支持JSON解码，自定义结构巴拉巴拉的，看着蛮高大上的</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"># -*- encoding: utf-8 -*-  </span><br><span class="line">import faust  </span><br><span class="line">app = faust.App(id=&#x27;任务名&#x27;,  </span><br><span class="line">                broker=&#x27;kafka://&#x27;)  </span><br><span class="line">topic = app.topic(&#x27;topic A&#x27;, value_type=str)  </span><br><span class="line">retry_topic = app.topic(&#x27;topic B&#x27;, value_type=str)  </span><br><span class="line">  </span><br><span class="line">@app.agent(topic)  </span><br><span class="line">async def hello(greetings):  </span><br><span class="line">    async for greeting in greetings:  </span><br><span class="line">        await retry_topic.send(value=greeting)  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">if __name__ == &#x27;__main__&#x27;:  </span><br><span class="line">    app.main()</span><br></pre></td></tr></table></figure><p>启动命令：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">faust.exe -A kfk_test worker</span><br></pre></td></tr></table></figure><p>遇到的问题：</p><ul><li>我用的是 faust, version Faust 1.10.4，用Python3.12运行的时候提示imp包不存在，结果是Python3.12里把这个包删掉了</li><li>消费kafka时如果想切换消费者组，需要修改任务名。因为faust消费kafka的时候，group_id是通过任务名算的。然后我没找到lastest和earliest的设置项</li><li>当启动之后，faust默认会在6066开个http服务，这个服务在哪关闭没找到</li></ul>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;项目地址：[[&lt;a href=&quot;https://github.com/faust-streaming/faust&quot;&gt;faust-streaming&amp;#x2F;faust: Python Stream Processing. A Faust fork (github.com)</summary>
+      
+    
+    
+    
+    <category term="编程" scheme="http://example.com/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>路边小店修手机</title>
