@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2024-08-21T07:18:03.247Z</updated>
+  <updated>2024-09-09T06:10:54.803Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Centos7安装高版本wireshark</title>
+    <link href="http://example.com/2024/09/09/Centos7%E5%AE%89%E8%A3%85%E9%AB%98%E7%89%88%E6%9C%ACwireshark/"/>
+    <id>http://example.com/2024/09/09/Centos7%E5%AE%89%E8%A3%85%E9%AB%98%E7%89%88%E6%9C%ACwireshark/</id>
+    <published>2024-09-09T02:20:57.000Z</published>
+    <updated>2024-09-09T06:10:54.803Z</updated>
+    
+    <content type="html"><![CDATA[<p>由于Centos7的yum源中Wireshark的版本还是比较早的1.10.14版本，所以需要手动进行安装与升级，具体步骤如下：</p><ol><li>安装epel-release<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y epel-release</span><br></pre></td></tr></table></figure></li><li>下载源码包<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">在https://1.na.dl.wireshark.org/src/all-versions/地址中的source code处下载最新的源码包</span><br></pre></td></tr></table></figure></li><li>解压缩<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xz -d wireshark-3.4.16.tar.xz &amp;&amp; tar -xvf wireshark-3.4.16.tar</span><br></pre></td></tr></table></figure></li><li>安装各种编译需要的依赖<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y libgcrypt-devel glib2-devel qt-devel qt5-qtbase-devel qt5-linguist qt5-qtmultimedia-devel qt5-qtsvg-devel libcap-devel libcap-ng-devel gnutls-devel krb5-devel libxml2-devel lua-devel lz4-devel snappy-devel spandsp-devel libssh2-devel bcg729-devel libmaxminddb-devel sbc-devel libsmi-devel libnl3-devel libnghttp2-devel libssh-devel libpcap-devel c-ares-devel redhat-rpm-config rpm-build gtk+-devel gtk3-devel desktop-file-utils portaudio-devel rubygem-asciidoctor docbook5-style-xsl docbook-style-xsl systemd-devel python34 cmake3 git gcc gcc-c++ flex bison doxygen gettext-devel libxslt cmake</span><br></pre></td></tr></table></figure></li><li>初始化Git<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git init</span><br><span class="line">git add .</span><br><span class="line">git commit -m &quot;First commit.&quot;</span><br></pre></td></tr></table></figure></li><li>Cmake编译<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cmake3 ./</span><br></pre></td></tr></table></figure></li><li>制作RPM包<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make rpm-package</span><br></pre></td></tr></table></figure></li><li>使用RPM包进行安装<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /root/wireshark-3.4.16/packaging/rpm/RPMS/x86_64/</span><br><span class="line">rpm -Uvh --force --nodeps *rpm</span><br></pre></td></tr></table></figure>服务器的操作系统是Centos7.9，Wireshark在4.0版本之后要求RH EL8了，所以最后妥协选择3.4.16版本</li></ol><p>补充：3.6.24版本也能编译通过</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;由于Centos7的yum源中Wireshark的版本还是比较早的1.10.14版本，所以需要手动进行安装与升级，具体步骤如下：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;安装epel-release&lt;figure class=&quot;highlight plaintext&quot;&gt;&lt;table&gt;&lt;t</summary>
+      
+    
+    
+    
+    <category term="编程" scheme="http://example.com/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>公园随拍，也是终于用上索尼A7C2和腾龙28200</title>
