@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2024-09-09T06:10:54.803Z</updated>
+  <updated>2024-09-11T06:48:20.305Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Centos7 docker服务升级</title>
+    <link href="http://example.com/2024/09/11/Centos7-docker%E6%9C%8D%E5%8A%A1%E5%8D%87%E7%BA%A7/"/>
+    <id>http://example.com/2024/09/11/Centos7-docker%E6%9C%8D%E5%8A%A1%E5%8D%87%E7%BA%A7/</id>
+    <published>2024-09-11T06:40:19.000Z</published>
+    <updated>2024-09-11T06:48:20.305Z</updated>
+    
+    <content type="html"><![CDATA[<p>起因是在使用docker拉取镜像时遇到了一个错误：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ERROR: Service &#x27;webshark&#x27; failed to build: missing signature key</span><br></pre></td></tr></table></figure><p>通过yum search搜索发现是docker服务的版本太低了，yum提供的docker版本是1.13.1</p><p>升级方法如下：</p><ol><li>删除历史docker服务<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">yum remove docker \  </span><br><span class="line">                              docker-client \  </span><br><span class="line">                              docker-client-latest \  </span><br><span class="line">                              docker-common \  </span><br><span class="line">                              docker-latest \  </span><br><span class="line">                              docker-latest-logrotate \  </span><br><span class="line">                              docker-logrotate \  </span><br><span class="line">                              docker-engine</span><br></pre></td></tr></table></figure></li><li>安装yum-utils<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y yum-utils</span><br></pre></td></tr></table></figure></li><li>添加yum源<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo</span><br></pre></td></tr></table></figure></li><li>安装docker相关服务<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin</span><br></pre></td></tr></table></figure></li><li>启动docker服务<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl start docker</span><br></pre></td></tr></table></figure></li></ol><p>如果在使用docker-compose up -d命令时出现<em>client version 1.22 is too old. Minimum supported API version is 1.24, please upgrade your client to a newer version</em>错误，需要将docker-compose.yaml中的version:2.0修改为2.1</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;起因是在使用docker拉取镜像时遇到了一个错误：&lt;/p&gt;
+&lt;figure class=&quot;highlight plaintext&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre</summary>
+      
+    
+    
+    
+    <category term="编程" scheme="http://example.com/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>Centos7安装高版本wireshark</title>
