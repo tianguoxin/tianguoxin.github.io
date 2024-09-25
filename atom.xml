@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2024-09-18T03:55:08.606Z</updated>
+  <updated>2024-09-25T01:33:17.253Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -17,11 +17,34 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Python消费kafka的两种方式</title>
+    <link href="http://example.com/2024/09/25/Python%E6%B6%88%E8%B4%B9kafka%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%96%B9%E5%BC%8F/"/>
+    <id>http://example.com/2024/09/25/Python%E6%B6%88%E8%B4%B9kafka%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%96%B9%E5%BC%8F/</id>
+    <published>2024-09-25T01:18:55.000Z</published>
+    <updated>2024-09-25T01:33:17.253Z</updated>
+    
+    <content type="html"><![CDATA[<p>之前一直用的python-kafka开发消费者的代码，但是在同一消费者组内并发消费topic时，它自动提交offset部分有问题，每次还需要手动的记录和维护，所以测试并记录以下两种方式。</p><h3 id="第一种-基于faust的kafka消费方式"><a href="#第一种-基于faust的kafka消费方式" class="headerlink" title="第一种 基于faust的kafka消费方式"></a>第一种 基于faust的kafka消费方式</h3><p>[[<a href="https://github.com/robinhood/faust">robinhood&#x2F;faust: Python Stream Processing (github.com)</a>]]<br>这东西准确来说有点像flink，主要作用是流式引擎。优点是安装起来比较简单，属于开箱即用，号称每天上亿数据没问题，并且支持并发，不用自己去考虑如offset提交等问题。缺点就是有一些笨重，再加上库的工作机理几乎是黑盒的</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"># -*- encoding: utf-8 -*-  </span><br><span class="line">import faust  </span><br><span class="line">app = faust.App(&#x27;faust自己的任务id，group_id也是根据这个值计算的&#x27;,  </span><br><span class="line">                broker=&#x27;kafka://IP地址:端口&#x27;)  </span><br><span class="line"># 输入topic</span><br><span class="line">topic = app.topic(&#x27;topic-A&#x27;, value_type=str)  </span><br><span class="line"># 输出topic</span><br><span class="line">retry_topic = app.topic(&#x27;topic-B&#x27;, value_type=str)  </span><br><span class="line"></span><br><span class="line"># 方法含义 从topic-A收一条，向topic-B写一条</span><br><span class="line">@app.agent(topic)  </span><br><span class="line">async def hello(greetings):  </span><br><span class="line">    async for greeting in greetings:  </span><br><span class="line">        await retry_topic.send(value=greeting)  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">if __name__ == &#x27;__main__&#x27;:  </span><br><span class="line">    app.main()</span><br></pre></td></tr></table></figure><h3 id="第二种-基于asyncio和aiokafka的协程式消费kafka"><a href="#第二种-基于asyncio和aiokafka的协程式消费kafka" class="headerlink" title="第二种 基于asyncio和aiokafka的协程式消费kafka"></a>第二种 基于asyncio和aiokafka的协程式消费kafka</h3><p>基于协程的并发也能提高消费kafka的速度，并且比多线程操作起来要容易一些</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"># -*- encoding: utf-8 -*-  </span><br><span class="line">from aiokafka import AIOKafkaConsumer  </span><br><span class="line">import asyncio  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">async def consume():  </span><br><span class="line">    consumer = AIOKafkaConsumer(  </span><br><span class="line">        &#x27;topic名称&#x27;,  </span><br><span class="line">        loop=asyncio.get_event_loop(),  </span><br><span class="line">        bootstrap_servers=&#x27;IP地址:端口&#x27;,  </span><br><span class="line">        group_id=&quot;组ID&quot;,  </span><br><span class="line">        enable_auto_commit=True,  # Is True by default anyway  </span><br><span class="line">        auto_commit_interval_ms=1000,  # Autocommit every second  </span><br><span class="line">        auto_offset_reset=&quot;latest&quot;,  </span><br><span class="line">    )  </span><br><span class="line">    await consumer.start()  </span><br><span class="line">    try:  </span><br><span class="line">        # Consume messages  </span><br><span class="line">        async for msg in consumer:  </span><br><span class="line">            print(msg.value)  </span><br><span class="line">    finally:  </span><br><span class="line">        await consumer.stop()  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">if __name__ == &#x27;__main__&#x27;:  </span><br><span class="line">    asyncio.run(consume())</span><br></pre></td></tr></table></figure>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;之前一直用的python-kafka开发消费者的代码，但是在同一消费者组内并发消费topic时，它自动提交offset部分有问题，每次还需要手动的记录和维护，所以测试并记录以下两种方式。&lt;/p&gt;
+&lt;h3 id=&quot;第一种-基于faust的kafka消费方式&quot;&gt;&lt;a href=</summary>
+      
+    
+    
+    
+    <category term="编程" scheme="http://example.com/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+    
+  </entry>
+  
+  <entry>
     <title>Centos7创建与持久化RAMDISK内存盘</title>
     <link href="http://example.com/2024/09/18/Centos7%E5%88%9B%E5%BB%BA%E4%B8%8E%E6%8C%81%E4%B9%85%E5%8C%96RAMDISK%E5%86%85%E5%AD%98%E7%9B%98/"/>
     <id>http://example.com/2024/09/18/Centos7%E5%88%9B%E5%BB%BA%E4%B8%8E%E6%8C%81%E4%B9%85%E5%8C%96RAMDISK%E5%86%85%E5%AD%98%E7%9B%98/</id>
     <published>2024-09-18T03:23:13.000Z</published>
-    <updated>2024-09-18T03:55:08.606Z</updated>
+    <updated>2024-09-25T01:21:31.490Z</updated>
     
     <content type="html"><![CDATA[<p>使用的场景是密集的磁盘操作，但是内存闲置太多，为了降低磁盘IO带来的服务器高负载情况，将部分磁盘操作所在路径替换为RAMDISK，即内存盘。</p><p>在Centos7中可以使用如下命令进行设置，如制作两块内存盘，每块内存盘大小为2G</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">modprobe brd rd_nr=2 rd_size=2097152 max_part=0</span><br></pre></td></tr></table></figure><p>像普通硬盘一样，需要对新制作的内存盘进行格式化</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkfs.ext4 /dev/ram0</span><br><span class="line">mkfs.ext4 /dev/ram1</span><br></pre></td></tr></table></figure><p>将内存盘挂载到目录上</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mount /dev/ram0 /demopath</span><br><span class="line">mount /dev/ram1 /demopath</span><br></pre></td></tr></table></figure><p><strong>每次重启服务器，内存盘都会被释放，磁盘中的内容会丢失！</strong><br><strong>每次重启服务器，内存盘都会被释放，磁盘中的内容会丢失！</strong><br><strong>每次重启服务器，内存盘都会被释放，磁盘中的内容会丢失！</strong></p><p>所以如果想每次开机时都完成内存盘的自动挂载<br>需要将上述命令放到&#x2F;etc&#x2F;rc.d&#x2F;rc.local文件中，并为rc.local添加权限：chmod +x rc.local</p>]]></content>
     
